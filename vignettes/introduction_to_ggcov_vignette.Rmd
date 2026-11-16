@@ -317,7 +317,7 @@ fit_null <- GGcov_MLE(Price ~ 1, data = spend_data_sample, subject = "Id")
 print(fit_null)
 ```
 
-The null model is nested in any covariate model (all coefficients equal to zero), so a likelihood-ratio test compares them. Both models must be fitted to the same data. The statistic is compared to a chi-square distribution with one degree of freedom per coefficient:
+The null model is nested in any covariate model (all coefficients equal to zero), so a likelihood-ratio test compares them. Note that Fader and Hardie (2024) distinguish three ways of formulating the no-covariate gamma-gamma likelihood: using individual transactions (A1), total spend (A2), or average spend (A3). Formulations A2 and A3 differ only by a parameter-free constant and yield the same parameter estimates, whereas A1 uses the individual transaction values directly (which generally gives different parameter estimates) and is the formulation that extends to transaction-level covariates. `GGcov_MLE()` uses formulation A1 for the null model, so `fit_null$value` is on the exact same likelihood scale as any covariate model fitted to the same data. The statistic is compared to a chi-square distribution with one degree of freedom per coefficient:
 
 ```{r lr-test}
 lr <- 2 * (fit_null$value - fit_varying$value)

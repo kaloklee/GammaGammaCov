@@ -59,7 +59,7 @@
       <h1>Introduction to GammaGammaCov: Gamma-Gamma Spend Models with Covariates</h1>
                         <h4 data-toc-skip class="author">Ka Lok Lee</h4>
             
-            <h4 data-toc-skip class="date">2026-11-11</h4>
+            <h4 data-toc-skip class="date">2026-11-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kaloklee/GammaGammaCov/blob/HEAD/vignettes/introduction_to_ggcov_vignette.Rmd" class="external-link"><code>vignettes/introduction_to_ggcov_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_to_ggcov_vignette.Rmd</code></div>
@@ -810,8 +810,17 @@ and
 <span><span class="co">#&gt; Negative log-likelihood: 4017.5628</span></span>
 <span><span class="co">#&gt; Convergence code: 0</span></span></code></pre></div>
 <p>The null model is nested in any covariate model (all coefficients
-equal to zero), so a likelihood-ratio test compares them. Both models
-must be fitted to the same data. The statistic is compared to a
+equal to zero), so a likelihood-ratio test compares them. Note that
+Fader and Hardie (2024) distinguish three ways of formulating the
+no-covariate gamma-gamma likelihood: using individual transactions (A1),
+total spend (A2), or average spend (A3). Formulations A2 and A3 differ
+only by a parameter-free constant and yield the same parameter
+estimates, whereas A1 uses the individual transaction values directly
+(which generally gives different parameter estimates) and is the
+formulation that extends to transaction-level covariates.
+<code><a href="../reference/GGcov_MLE.html">GGcov_MLE()</a></code> uses formulation A1 for the null model, so
+<code>fit_null$value</code> is on the exact same likelihood scale as any
+covariate model fitted to the same data. The statistic is compared to a
 chi-square distribution with one degree of freedom per coefficient:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lr</span> <span class="op">&lt;-</span> <span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="va">fit_null</span><span class="op">$</span><span class="va">value</span> <span class="op">-</span> <span class="va">fit_varying</span><span class="op">$</span><span class="va">value</span><span class="op">)</span></span>
